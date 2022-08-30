@@ -14,9 +14,9 @@ app.get('/api/item/:slug', (req, res) => {
 });
 
 if (process.env.NODE_ENV == 'local') {
-    app.listen(3001, () => {
-        console.log(`Example app listening on port 3001`)
-    });
+  app.listen(3001, () => {
+    console.log(`Example app listening on port 3001`);
+  });
 }
 
 module.exports = app;
