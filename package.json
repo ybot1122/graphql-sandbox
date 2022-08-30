@@ -1,5 +1,8 @@
 {
   "private": true,
+  "engines": {
+    "node": ">=16.15.3 <17"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -24,7 +27,8 @@
     "prettier": "prettier --config .prettierrc '**/*.{ts,tsx,json}' --write",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "express:local": "NODE_ENV=local node api/index.js"
+    "express:local": "NODE_ENV=local node api/index.js",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +49,7 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "husky": "^8.0.0"
   }
 }
