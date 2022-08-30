@@ -13,4 +13,10 @@ app.get('/api/item/:slug', (req, res) => {
   res.end(`Item: ${slug}`);
 });
 
+if (process.env.NODE_ENV == 'local') {
+    app.listen(3001, () => {
+        console.log(`Example app listening on port 3001`)
+    });
+}
+
 module.exports = app;
