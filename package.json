@@ -1,7 +1,7 @@
 {
   "private": true,
   "engines": {
-    "node": ">=16.15.3 <17"
+    "node": ">=16.15.0 <17"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
