@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prettier": "prettier --config .prettierrc '**/*.ts' --write",
+    "prettier": "prettier --config .prettierrc '**/*.{ts,tsx,json}' --write",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "express:local": "NODE_ENV=local node api/index.js"
