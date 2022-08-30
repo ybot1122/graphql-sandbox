@@ -27,7 +27,7 @@
     "prettier": "prettier --config .prettierrc '**/*.{ts,tsx,json}' --write",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "express:local": "NODE_ENV=local node api/index.js",
+    "express:local": "NODE_ENV=local node api/index.ts",
     "prepare": "husky install"
   },
   "eslintConfig": {
