@@ -1,3 +1,5 @@
+// TODO: https://www.apollographql.com/docs/apollo-server/getting-started
+
 const app = require('express')();
 const { v4 } = require('uuid');
 
