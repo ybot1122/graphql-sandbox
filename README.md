@@ -1,20 +1,12 @@
-# Create React App
+# GraphQL Sandbox
+Personal project to play with graphQL related capabilities.
 
-This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
+# Startup:
+- Check package.json "engines" for supported node version
+- `npm i`
+- use `npm start` to run the app and `npm run express:local` to run the express/graphql server
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes. You may also see any lint errors in the console.
-
-### `npm run express:local`
-
-Runs the express server locally on port 3001. 
+## Other Scripts
 
 ### `npm test`
 

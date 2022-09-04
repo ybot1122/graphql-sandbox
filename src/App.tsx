@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
+import { fetchItem } from './data/fetchItem';
 import './App.css';
 
 function App() {
   const [data, setData] = useState('');
 
   useEffect(() => {
-    fetch('/api/item/1').then((res) => {
-      res.text().then((text) => setData(text));
-    });
+    fetchItem(1).then((text) => setData(text));
   }, []);
 
   return (

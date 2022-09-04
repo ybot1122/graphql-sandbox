@@ -1,6 +1,13 @@
 const app = require('express')();
 const { v4 } = require('uuid');
 
+if (process.env.NODE_ENV == 'local') {
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  });
+}
+
 app.get('/api', (req, res) => {
   const path = `/api/item/${v4()}`;
   res.setHeader('Content-Type', 'text/html');
@@ -10,7 +17,7 @@ app.get('/api', (req, res) => {
 
 app.get('/api/item/:slug', (req, res) => {
   const { slug } = req.params;
-  res.end(`Item: ${slug}`);
+  res.end(`You Requested Item: ${slug}`);
 });
 
 if (process.env.NODE_ENV == 'local') {

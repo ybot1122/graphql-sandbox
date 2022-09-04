@@ -24,10 +24,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prettier": "prettier --config .prettierrc '**/*.{ts,tsx,json}' --write",
+    "prettier": "prettier --config .prettierrc \"**/*.{ts,tsx,json}\" --write",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "express:local": "NODE_ENV=local node api/index.ts",
+    "express:local": "cross-env NODE_ENV=local node api/index.ts",
     "prepare": "husky install"
   },
   "eslintConfig": {
@@ -49,7 +49,8 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.7.1",
-    "husky": "^8.0.0"
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.0",
+    "prettier": "^2.7.1"
   }
 }
