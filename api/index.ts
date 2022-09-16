@@ -40,8 +40,8 @@ if (process.env.NODE_ENV == 'local') {
 app.get('/api', (req, res) => {
   const path = `/api/item/${v4()}`;
   res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.end(`Hello! Go to item: <a href="${path}">${path}</a>. Graphql endpont is ${graphqlServer.graphqlPath}`);
+  res.setHeader('Cache-Control', 'no-cache');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>. Graphql endpoint is ${graphqlServer.graphqlPath}`);
 });
 
 app.get('/api/item/:slug', (req, res) => {
