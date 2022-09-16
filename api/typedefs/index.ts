@@ -1,5 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server');
-
+const { gql } = require('apollo-server-core');
 
 // A schema is a collection of type definitions (hence "typeDefs")
 
@@ -7,7 +6,7 @@ const { ApolloServer, gql } = require('apollo-server');
 
 // your data.
 
-const typeDefs = gql`
+module.exports = gql`
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
   # This "Book" type defines the queryable fields for every book in our data source.
 
@@ -15,7 +14,6 @@ const typeDefs = gql`
     title: String
     author: String
   }
-
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
