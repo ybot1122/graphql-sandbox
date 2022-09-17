@@ -1,17 +1,21 @@
 // TODO: https://www.apollographql.com/docs/apollo-server/getting-started
 
-const app = require('express')();
+const express = require('express');
+const app = express();
 const { v4 } = require('uuid');
-const graphql = require('graphql');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
+const {graphql, buildSchema} = require('graphql');
 
 if (process.env.NODE_ENV == 'local') {
   // disable CORS on local dev
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');    
     next();
   });
 }
+
+app.use(express.json());
 
 app.get('/api', (req, res) => {
   // Dummy endpoint to test server
@@ -35,40 +39,53 @@ if (process.env.NODE_ENV == 'local') {
 }
 
 const resolvers = {
-  Query: {
-    books: () => [
-      {
-        title: 'The Awakening',
-        author: 'Kate Chopin'
-      },
-      {
-        title: 'City of Glass',
-        author: 'Paul Auster'
-      }
-    ]
+  books: () => [
+    {
+      title: 'The Awakening',
+      author: 'Kate Chopin'
+    },
+    {
+      title: 'City of Glass',
+      author: 'Paul Auster'
+    }
+  ],
+  rollDice: ({numDice, numSides}) => {
+    var output = [];
+    for (var i = 0; i < numDice; i++) {
+      output.push(1 + Math.floor(Math.random() * (numSides || 6)));
+    }
+    return output;
   }
 };
 
-const typeDefs = `
+// Construct a schema, using GraphQL schema language
+var schema = buildSchema(`
   type Book {
     title: String!
     author: String!
   }
+
   type Query {
+    rollDice(numDice: Int!, numSides: Int): [Int]
     books: [Book]
   }
-`;
-
-const schema = makeExecutableSchema({typeDefs, resolvers});
+`);
 
 app.post('/api/graphql', async (req, res) => {
   try {
     const { body } = req;
+
+    if (!body.query) throw new Error("Need query");
+    if (!body.variables) throw new Error("Need variables");
+    // if (!body.operationName) throw new Error("Need operationName");
+
     const { query, variables, operationName } = body;
-    const result = await graphql(schema, query, null, variables, operationName);
+    const result = await graphql({schema, source: query, variableValues: variables, operationName, rootValue: resolvers});
     res.status(200).json(result);
   } catch(e) {
-    res.status(400).json({error: e});
+    console.log(e);
+    res.status(400);
+    res.end(JSON.stringify(e))
   }
 });
 
