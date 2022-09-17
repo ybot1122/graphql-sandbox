@@ -4,11 +4,15 @@ const http = require('http');
 const app = require('express')();
 const { v4 } = require('uuid');
 const { ApolloServer } = require('apollo-server-express');
-const { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginDrainHttpServer, gql } = require('apollo-server-core');
+const {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginDrainHttpServer,
+  gql
+} = require('apollo-server-core');
 
 const resolvers = {
   Query: {
-    books: () => ([
+    books: () => [
       {
         title: 'The Awakening',
         author: 'Kate Chopin'
@@ -17,7 +21,7 @@ const resolvers = {
         title: 'City of Glass',
         author: 'Paul Auster'
       }
-    ])
+    ]
   }
 };
 
@@ -74,10 +78,12 @@ const startApolloServer = async (app, httpServer) => {
   await graphqlServer.start();
   graphqlServer.applyMiddleware({ app });
 
+  console.log(`Graphql path is ${graphqlServer.graphqlPath}`);
+
   if (process.env.NODE_ENV == 'local') {
     // on local dev, do not use HTTP server. just expose on port.
     app.listen(3001, () => {
-      console.log(`Example app listening on port 3001. Graphql path is ${graphqlServer.graphqlPath}`);
+      console.log(`listening on port 3001`);
     });
   }
 };
