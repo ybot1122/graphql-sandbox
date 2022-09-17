@@ -1,36 +1,22 @@
 // TODO: https://www.apollographql.com/docs/apollo-server/getting-started
 
+const http = require("http");
 const app = require('express')();
 const { v4 } = require('uuid');
 const { ApolloServer } = require('apollo-server-express');
-const { ApolloServerPluginLandingPageLocalDefault } = require('apollo-server-core');
+const { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 
+// import resolvers
 const Query_resolver = require('./resolvers/Query.ts');
-
 const resolvers = {
   ...Query_resolver
 };
 
+// import typeDefs
 const typeDefs = require('./typedefs/index.ts');
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-const graphqlServer = new ApolloServer({
-  typeDefs,
-  resolvers,
-  csrfPrevention: process.env.NODE_ENV !== 'local',
-  cache: 'bounded',
-  /**
-   * What's up with this embed: true option?
-   * These are our recommended settings for using AS;
-   * they aren't the defaults in AS3 for backwards-compatibility reasons but
-   * will be the defaults in AS4. For production environments, use
-   * ApolloServerPluginLandingPageProductionDefault instead.
-   **/
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })]
-});
-
 if (process.env.NODE_ENV == 'local') {
+  // disable CORS on local dev
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
@@ -38,35 +24,43 @@ if (process.env.NODE_ENV == 'local') {
 }
 
 app.get('/api', (req, res) => {
+  // Dummy endpoint to test server
   const path = `/api/item/${v4()}`;
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Cache-Control', 'no-cache');
-  res.end(`Hello! Go to item: <a href="${path}">${path}</a>. Graphql endpoint is ${graphqlServer.graphqlPath}`);
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
 });
 
 app.get('/api/item/:slug', (req, res) => {
+  // Dummy endpoint for fake data
   const { slug } = req.params;
   res.end(`You Requested Item: ${slug}`);
 });
 
-/*
-// The `listen` method launches a web server.
-graphqlServer.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
-*/
+const startApolloServer = async (app, httpServer) => {
+  // The ApolloServer constructor requires two parameters: your schema
+  // definition and your set of resolvers.
+  const graphqlServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    csrfPrevention: process.env.NODE_ENV !== 'local',
+    cache: 'bounded',
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true }), ApolloServerPluginDrainHttpServer({ httpServer })]
+  });
 
-const start = async () => {
   await graphqlServer.start();
   graphqlServer.applyMiddleware({ app });
 
   if (process.env.NODE_ENV == 'local') {
+    // on local dev, do not use HTTP server. just expose on port.
     app.listen(3001, () => {
       console.log(`Example app listening on port 3001. Graphql path is ${graphqlServer.graphqlPath}`);
     });
-  }
-
-  return app;
+  }  
 };
 
-module.exports = start;
+const httpServer = http.createServer(app);
+
+startApolloServer(app, httpServer);
+
+module.exports = httpServer;
