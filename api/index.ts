@@ -56,7 +56,8 @@ graphqlServer.listen().then(({ url }) => {
 });
 */
 
-graphqlServer.start().then(() => {
+const start = async () => {
+  await graphqlServer.start();
   graphqlServer.applyMiddleware({ app });
 
   if (process.env.NODE_ENV == 'local') {
@@ -64,6 +65,8 @@ graphqlServer.start().then(() => {
       console.log(`Example app listening on port 3001. Graphql path is ${graphqlServer.graphqlPath}`);
     });
   }
-});
 
-module.exports = app;
+  return app;
+};
+
+module.exports = start;
