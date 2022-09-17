@@ -1,19 +1,39 @@
 // TODO: https://www.apollographql.com/docs/apollo-server/getting-started
 
-const http = require("http");
+const http = require('http');
 const app = require('express')();
 const { v4 } = require('uuid');
 const { ApolloServer } = require('apollo-server-express');
-const { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
+const { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginDrainHttpServer, gql } = require('apollo-server-core');
 
-// import resolvers
-const Query_resolver = require('./resolvers/Query.ts');
 const resolvers = {
-  ...Query_resolver
+  Query: {
+    books: () => ([
+      {
+        title: 'The Awakening',
+        author: 'Kate Chopin'
+      },
+      {
+        title: 'City of Glass',
+        author: 'Paul Auster'
+      }
+    ])
+  }
 };
 
 // import typeDefs
-const typeDefs = require('./typedefs/index.ts');
+const typeDefs = gql`
+  type Book {
+    title: String
+    author: String
+  }
+  type Query {
+    books: [Book]
+  }
+  type ExampleQuery {
+    books: [Book]
+  }
+`;
 
 if (process.env.NODE_ENV == 'local') {
   // disable CORS on local dev
@@ -45,7 +65,10 @@ const startApolloServer = async (app, httpServer) => {
     resolvers,
     csrfPrevention: process.env.NODE_ENV !== 'local',
     cache: 'bounded',
-    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true }), ApolloServerPluginDrainHttpServer({ httpServer })]
+    plugins: [
+      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+      ApolloServerPluginDrainHttpServer({ httpServer })
+    ]
   });
 
   await graphqlServer.start();
@@ -56,7 +79,7 @@ const startApolloServer = async (app, httpServer) => {
     app.listen(3001, () => {
       console.log(`Example app listening on port 3001. Graphql path is ${graphqlServer.graphqlPath}`);
     });
-  }  
+  }
 };
 
 const httpServer = http.createServer(app);
