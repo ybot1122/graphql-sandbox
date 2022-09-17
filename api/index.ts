@@ -3,14 +3,14 @@
 const express = require('express');
 const app = express();
 const { v4 } = require('uuid');
-const {graphql, buildSchema} = require('graphql');
+const { graphql, buildSchema } = require('graphql');
 
 if (process.env.NODE_ENV == 'local') {
   // disable CORS on local dev
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader('Access-Control-Allow-Headers', '*');    
+    res.setHeader('Access-Control-Allow-Headers', '*');
     next();
   });
 }
@@ -49,7 +49,7 @@ const resolvers = {
       author: 'Paul Auster'
     }
   ],
-  rollDice: ({numDice, numSides}) => {
+  rollDice: ({ numDice, numSides }) => {
     var output = [];
     for (var i = 0; i < numDice; i++) {
       output.push(1 + Math.floor(Math.random() * (numSides || 6)));
@@ -75,17 +75,23 @@ app.post('/api/graphql', async (req, res) => {
   try {
     const { body } = req;
 
-    if (!body.query) throw new Error("Need query");
-    if (!body.variables) throw new Error("Need variables");
+    if (!body.query) throw new Error('Need query');
+    if (!body.variables) throw new Error('Need variables');
     // if (!body.operationName) throw new Error("Need operationName");
 
     const { query, variables, operationName } = body;
-    const result = await graphql({schema, source: query, variableValues: variables, operationName, rootValue: resolvers});
+    const result = await graphql({
+      schema,
+      source: query,
+      variableValues: variables,
+      operationName,
+      rootValue: resolvers
+    });
     res.status(200).json(result);
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     res.status(400);
-    res.end(JSON.stringify(e))
+    res.end(JSON.stringify(e));
   }
 });
 

@@ -12,8 +12,6 @@ function App() {
     postGraphql().then((data) => setGraphqlData(data));
   }, []);
 
-  
-
   return (
     <div className="App">
       <header className="App-header">

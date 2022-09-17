@@ -14,16 +14,16 @@ export const postGraphql = async (): Promise<Object> => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json'
       },
       body: JSON.stringify({
         query,
-        variables: { dice, sides },
+        variables: { dice, sides }
       })
     });
     const data = await res.json();
     return Promise.resolve(data);
-  } catch(e) {
+  } catch (e) {
     return Promise.resolve(e);
   }
 };
