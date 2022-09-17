@@ -46,7 +46,7 @@ if (process.env.NODE_ENV == 'local') {
     next();
   });
 }
-/*
+
 app.get('/api', (req, res) => {
   // Dummy endpoint to test server
   const path = `/api/item/${v4()}`;
@@ -60,7 +60,6 @@ app.get('/api/item/:slug', (req, res) => {
   const { slug } = req.params;
   res.end(`You Requested Item: ${slug}`);
 });
-*/
 
 const startApolloServer = async (app, httpServer) => {
   // The ApolloServer constructor requires two parameters: your schema
