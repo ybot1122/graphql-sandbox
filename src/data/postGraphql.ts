@@ -1,12 +1,6 @@
 import { isLocal } from '../utils/isLocal';
 
-var dice = 3;
-var sides = 6;
-var query = `query RollDice($dice: Int!, $sides: Int) {
-  rollDice(numDice: $dice, numSides: $sides)
-}`;
-
-export const postGraphql = async (): Promise<Object> => {
+export const postGraphql = async (query, variables = {}): Promise<Object> => {
   const url = isLocal() ? `http://localhost:3001/api/graphql` : `/api/graphql`;
 
   try {
@@ -18,7 +12,7 @@ export const postGraphql = async (): Promise<Object> => {
       },
       body: JSON.stringify({
         query,
-        variables: { dice, sides }
+        variables,
       })
     });
     const data = await res.json();

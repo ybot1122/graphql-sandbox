@@ -55,6 +55,12 @@ const resolvers = {
       output.push(1 + Math.floor(Math.random() * (numSides || 6)));
     }
     return output;
+  },
+  Tile: () => {
+    return {
+      title: 'title',
+      brand: 'brand'
+    };
   }
 };
 
@@ -68,6 +74,16 @@ var schema = buildSchema(`
   type Query {
     rollDice(numDice: Int!, numSides: Int): [Int]
     books: [Book]
+    getCollection: Collection
+  }
+
+  type Tile {
+    title: String!
+    brand: String!
+  }
+
+  type Collection {
+    tiles: [Tile!]!
   }
 `);
 
