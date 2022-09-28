@@ -63,10 +63,12 @@ const resolvers = {
 
     console.log(payload);
 
-    return [{
-      title: 'title',
-      brand: 'brand'
-    }];
+    return [
+      {
+        title: 'title',
+        brand: 'brand'
+      }
+    ];
   }
 };
 
