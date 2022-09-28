@@ -1,6 +1,7 @@
 // TODO: https://www.apollographql.com/docs/apollo-server/getting-started
 
 const express = require('express');
+const nodeFetch = require('node-fetch');
 const app = express();
 const { v4 } = require('uuid');
 const { graphql, buildSchema } = require('graphql');
@@ -56,11 +57,16 @@ const resolvers = {
     }
     return output;
   },
-  Tile: () => {
-    return {
+  collection: async () => {
+    const data = await nodeFetch('https://graphql-sandbox-gules.vercel.app/raw/appletv.json');
+    const payload = await data.json();
+
+    console.log(payload);
+
+    return [{
       title: 'title',
       brand: 'brand'
-    };
+    }];
   }
 };
 
@@ -71,19 +77,15 @@ var schema = buildSchema(`
     author: String!
   }
 
-  type Query {
-    rollDice(numDice: Int!, numSides: Int): [Int]
-    books: [Book]
-    getCollection: Collection
-  }
-
   type Tile {
     title: String!
     brand: String!
   }
 
-  type Collection {
-    tiles: [Tile!]!
+  type Query {
+    rollDice(numDice: Int!, numSides: Int): [Int]
+    books: [Book]
+    collection: [Tile]
   }
 `);
 

@@ -10,7 +10,9 @@ var query = `query RollDice($dice: Int!, $sides: Int) {
 }`;
 
 var query2 = `query GetCollection {
-  Collec
+  collection {
+    title
+  }
 }`;
 
 var query3 = `query GetBooks {
