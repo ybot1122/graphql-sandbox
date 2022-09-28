@@ -12,7 +12,7 @@ export const postGraphql = async (query, variables = {}): Promise<Object> => {
       },
       body: JSON.stringify({
         query,
-        variables,
+        variables
       })
     });
     const data = await res.json();

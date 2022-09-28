@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     fetchItem(1).then((text) => setData(text));
-    postGraphql(query, {dice, sides}).then((data) => setGraphqlData(data));
+    postGraphql(query, { dice, sides }).then((data) => setGraphqlData(data));
     postGraphql(query2).then((data) => setGraphqlData2(data));
     postGraphql(query3).then((data) => setGraphqlData3(data));
   }, []);
