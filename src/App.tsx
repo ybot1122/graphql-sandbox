@@ -12,6 +12,7 @@ var query = `query RollDice($dice: Int!, $sides: Int) {
 var query2 = `query GetCollection {
   collection {
     title
+    description
   }
 }`;
 

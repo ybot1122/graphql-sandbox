@@ -61,14 +61,15 @@ const resolvers = {
     const data = await nodeFetch('https://graphql-sandbox-gules.vercel.app/raw/appletv.json');
     const payload = await data.json();
 
-    console.log(payload);
+    const ans = payload.data.canvas.shelves[1].items.map((el) => ({
+      title: el.title,
+      brand: 'Apple Tv',
+      description: el.heroDescription
+    }));
 
-    return [
-      {
-        title: 'title',
-        brand: 'brand'
-      }
-    ];
+    console.log(ans);
+
+    return ans;
   }
 };
 
@@ -82,6 +83,7 @@ var schema = buildSchema(`
   type Tile {
     title: String!
     brand: String!
+    description: String!
   }
 
   type Query {
