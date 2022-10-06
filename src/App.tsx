@@ -43,7 +43,7 @@ function App() {
     <div className="App">
       <header className="App-header">Welcome</header>
       {collections?.data.collection.map((el) => (
-        <Card title={el.title} description={el.description} key={el.key} />
+        <Card title={el.title} description={el.description} brand={el.brand} key={el.key} />
       ))}
       <p className="rawjson">{JSON.stringify(diceRoll)}</p>
       <p className="rawjson">{JSON.stringify(collections)}</p>

@@ -5,3 +5,7 @@
     margin: 10px;
     padding: 5px;
 }
+
+.card img {
+    width: 50px;
+}
