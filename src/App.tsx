@@ -14,6 +14,8 @@ var query2 = `query GetCollection {
   collection {
     title
     description
+    brand
+    key
   }
 }`;
 
@@ -41,7 +43,7 @@ function App() {
     <div className="App">
       <header className="App-header">Welcome</header>
       {collections?.data.collection.map((el) => (
-        <Card title={el.title} description={el.description} />
+        <Card title={el.title} description={el.description} key={el.key} />
       ))}
       <p className="rawjson">{JSON.stringify(diceRoll)}</p>
       <p className="rawjson">{JSON.stringify(collections)}</p>

@@ -58,16 +58,32 @@ const resolvers = {
     return output;
   },
   collection: async () => {
-    const data = await nodeFetch('https://graphql-sandbox-gules.vercel.app/raw/appletv.json');
-    const payload = await data.json();
+    // fetch
+    const [data_appletv, data_hulu] = await Promise.all([
+      nodeFetch('https://graphql-sandbox-gules.vercel.app/raw/appletv.json'),
+      nodeFetch('https://graphql-sandbox-gules.vercel.app/raw/hulu.json')
+    ]);
 
-    const ans = payload.data.canvas.shelves[1].items.map((el) => ({
+    // deserialize
+    const [payload_appletv, payload_hulu] = await Promise.all([data_appletv.json(), data_hulu.json()]);
+
+    // parse - appletv
+    const appletv = payload_appletv.data.canvas.shelves[1].items.map((el, ind) => ({
       title: el.title,
       brand: 'Apple Tv',
-      description: el.heroDescription
+      description: el.heroDescription,
+      key: `apple-${ind}`
     }));
 
-    console.log(ans);
+    // parse - hulu
+    const hulu = payload_hulu.components[2].items.map((el, ind) => ({
+      title: el.metrics_info.target_name,
+      brand: 'Hulu',
+      description: el.entity_metadata?.series_description ?? el.visuals?.body ?? 'no description available',
+      key: `hulu-${ind}`
+    }));
+
+    const ans = appletv.concat(hulu);
 
     return ans;
   }
@@ -84,6 +100,7 @@ var schema = buildSchema(`
     title: String!
     brand: String!
     description: String!
+    key: String!
   }
 
   type Query {
