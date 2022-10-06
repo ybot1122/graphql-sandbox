@@ -1,7 +1,7 @@
 import './Card.css';
 
 const appletv_icon = 'https://graphql-sandbox-gules.vercel.app/appletv_icon.png';
-const hulu_icon = 'https://graphql-sandbox-gules.vercel.app/hulu_icon.png';
+const hulu_icon = 'https://graphql-sandbox-gules.vercel.app/hulu_icon.jpg';
 
 export const Card = ({ title, description, brand }) => {
   // TODO: use typescript to enforce string literal of brands?
