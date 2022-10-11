@@ -84,7 +84,9 @@ const resolvers = {
       brand: 'Hulu',
       description: el.entity_metadata?.series_description ?? el.visuals?.body ?? 'no description available',
       key: `hulu-${ind}`,
-      image: el?.visuals?.artwork?.horizontal?.image?.path + '&operations=[{"resize":"600x600|max"},{"format":"webp"}]' ?? 'https://graphql-sandbox-gules.vercel.app/logo192.png'
+      image:
+        el?.visuals?.artwork?.horizontal?.image?.path + '&operations=[{"resize":"600x600|max"},{"format":"webp"}]' ??
+        'https://graphql-sandbox-gules.vercel.app/logo192.png'
     }));
 
     const ans = appletv.concat(hulu);
