@@ -47,7 +47,10 @@ function App() {
       <div>
         <Base64Image />
       </div>
-      {collections?.data.collection.map((el) => (
+
+      {collections?.error && <div>{collections.error}</div>}
+
+      {collections?.data?.collection?.map((el) => (
         <Card title={el.title} description={el.description} brand={el.brand} key={el.key} image={el.image} />
       ))}
       <p className="rawjson">{JSON.stringify(diceRoll)}</p>
