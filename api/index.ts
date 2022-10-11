@@ -72,7 +72,10 @@ const resolvers = {
       title: el.title,
       brand: 'Apple Tv',
       description: el.heroDescription,
-      key: `apple-${ind}`
+      key: `apple-${ind}`,
+      image:
+        el?.images?.shelfImage?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'png') ??
+        'https://graphql-sandbox-gules.vercel.app/logo192.png'
     }));
 
     // parse - hulu
@@ -80,7 +83,10 @@ const resolvers = {
       title: el.metrics_info.target_name,
       brand: 'Hulu',
       description: el.entity_metadata?.series_description ?? el.visuals?.body ?? 'no description available',
-      key: `hulu-${ind}`
+      key: `hulu-${ind}`,
+      image:
+        el?.visuals?.artwork?.horizontal?.image?.path + '&operations=[{"resize":"600x600|max"},{"format":"webp"}]' ??
+        'https://graphql-sandbox-gules.vercel.app/logo192.png'
     }));
 
     const ans = appletv.concat(hulu);
@@ -101,6 +107,7 @@ var schema = buildSchema(`
     brand: String!
     description: String!
     key: String!
+    image: String!
   }
 
   type Query {
