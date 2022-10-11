@@ -72,7 +72,8 @@ const resolvers = {
       title: el.title,
       brand: 'Apple Tv',
       description: el.heroDescription,
-      key: `apple-${ind}`
+      key: `apple-${ind}`,
+      image: 'a'
     }));
 
     // parse - hulu
@@ -80,7 +81,8 @@ const resolvers = {
       title: el.metrics_info.target_name,
       brand: 'Hulu',
       description: el.entity_metadata?.series_description ?? el.visuals?.body ?? 'no description available',
-      key: `hulu-${ind}`
+      key: `hulu-${ind}`,
+      image: 'a',
     }));
 
     const ans = appletv.concat(hulu);
@@ -101,6 +103,7 @@ var schema = buildSchema(`
     brand: String!
     description: String!
     key: String!
+    image: String!
   }
 
   type Query {

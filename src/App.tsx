@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchItem } from './data/fetchItem';
 import { postGraphql } from './data/postGraphql';
 import { Card } from './Card/Card';
+import { Base64Image } from './Base64Image/Base64Image';
 import './App.css';
 
 var dice = 3;
@@ -42,6 +43,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">Welcome</header>
+      <div><Base64Image /></div>
       {collections?.data.collection.map((el) => (
         <Card title={el.title} description={el.description} brand={el.brand} key={el.key} />
       ))}
