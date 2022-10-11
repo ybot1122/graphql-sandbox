@@ -73,7 +73,7 @@ const resolvers = {
       brand: 'Apple Tv',
       description: el.heroDescription,
       key: `apple-${ind}`,
-      image: 'a'
+      image: 'https://graphql-sandbox-gules.vercel.app/logo192.png',
     }));
 
     // parse - hulu
@@ -82,7 +82,7 @@ const resolvers = {
       brand: 'Hulu',
       description: el.entity_metadata?.series_description ?? el.visuals?.body ?? 'no description available',
       key: `hulu-${ind}`,
-      image: 'a',
+      image: 'https://graphql-sandbox-gules.vercel.app/logo192.png',
     }));
 
     const ans = appletv.concat(hulu);
